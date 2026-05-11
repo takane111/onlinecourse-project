@@ -23,3 +23,9 @@ admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
 admin.site.register(Submission)
+
+from .models import Course, Lesson, Question, Choice, Submission, Instructor, Learner # Add them to the import
+
+# Add these registration lines at the bottom
+admin.site.register(Instructor)
+admin.site.register(Learner)
