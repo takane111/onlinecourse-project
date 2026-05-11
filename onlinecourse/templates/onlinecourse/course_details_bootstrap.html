@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>{{ course.name }}</title>
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>{{ course.name }}</h1>
-        {% for lesson in course.lesson_set.all %}
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="card-title">{{ lesson.title }}</h5>
-                    <p class="card-text">{{ lesson.content }}</p>
-                </div>
+<form action="{% url 'onlinecourse:submit' course.id %}" method="post">
+    {% csrf_token %}
+    {% for question in course.question_set.all %}
+        <div class="card mt-1">
+            <div class="card-header"><h5>{{ question.question_text }}</h5></div>
+            <div class="card-body">
+                {% for choice in question.choice_set.all %}
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="choice_{{choice.id}}" 
+                                   class="form-check-input" value="{{choice.id}}">
+                            {{ choice.choice_text }}
+                        </label>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
-            {% csrf_token %}
-            <input class="btn btn-primary mt-4" type="submit" value="Submit Exam">
-        </form>
-    </div>
-</body>
-</html>
+        </div>
+    {% endfor %}
+    <input class="btn btn-primary mt-4" type="submit" value="Submit Exam">
+</form>
